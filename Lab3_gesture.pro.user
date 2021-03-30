@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.13.1, 2021-03-30T22:42:32. -->
+<!-- Written by QtCreator 4.13.1, 2021-03-31T01:38:54. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -325,8 +325,9 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:F:/QT/ratunekLab3_Polak_Miler_Mankowski/Lab3_Polak_Miler_Mankowski/Lab3_gesture/Lab3_gesture.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">F:/QT/ratunekLab3_Polak_Miler_Mankowski/Lab3_Polak_Miler_Mankowski/Lab3_gesture/Lab3_gesture.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Lab3_gesture2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:F:/QT/ratunekLab3_Polak_Miler_Mankowski/Lab3_Polak_Miler_Mankowski/Lab3_gesture/MICM_lab3_gesty_dynamiczne/Lab3_gesture.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">F:/QT/ratunekLab3_Polak_Miler_Mankowski/Lab3_Polak_Miler_Mankowski/Lab3_gesture/MICM_lab3_gesty_dynamiczne/Lab3_gesture.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>

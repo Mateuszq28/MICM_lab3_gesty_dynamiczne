@@ -103,17 +103,22 @@ QString recognizeGest(bool savePattern, std::vector<std::vector<cv::Point2f>> pa
                    std::advance(it, index);
                    qstr = *it;
                    qDebug()<<"GEST: "<< qstr;
+                   qDebug()<<"iteracja po liście";
                 }
             }
 
 //            cv::matchTemplate(pattern, gesture, corr, cv::TM_CCOEFF_NORMED);
         //qDebug()<<corr.at<float>(0,0);
+            qDebug()<<"return qstr";
             return qstr;
         }
         catch (cv::Exception& e) {
             qDebug()<<e.what();
+
         }
+        qDebug()<<"koniec try catch";
     }
+    qDebug()<<"return pusty znak";
     return "";
 }
 
@@ -126,19 +131,27 @@ void MainWindow::onEmitGesture(std::vector<cv::Point2f> g)
 //        qDebug()<<g[i].x<<";"<<g[i].y;
 //    }
     gesture = g;
-
+qDebug()<<"wykrywany gest";
+qDebug()<<"wysyłam pojedynczy gest do reco";
     QString qstr = recognizeGest(savePattern, pattern_table, name_gesture, gesture);
+    qDebug()<<"odebrałem pojedynczy od reco";
     if (qstr != "") ui->label->setText(qstr);
+    qDebug()<<"wysłano pojedynczy na label";
+    qDebug()<<"Ten znak to: "<<qstr;
 }
 
 
 void MainWindow::onEmitMultiGesture(std::vector<std::vector<cv::Point2f>> mg)
 {
+    qDebug()<<"WESZŁO DO MULTITOUCHA";
     std::vector<cv::Point2f> gesture0 = mg.at(0);
-    std::vector<cv::Point2f> gesture1 = mg.at(0);
+    std::vector<cv::Point2f> gesture1 = mg.at(1);
 
+    qDebug()<<"wysyłam pierwszy multi";
     QString qstr0 = recognizeGest(savePattern, pattern_table, name_gesture, gesture0);
+    qDebug()<<"wysyłam drugi multi";
     QString qstr1 = recognizeGest(savePattern, pattern_table, name_gesture, gesture1);
+    qDebug()<<"otrzymałem oba multi";
 
     //gesty przybliżania i oddalania
     if (qstr0 == "LEFT" && qstr1 == "RIGHT") ui->label->setText("ZOOM IN HORIZONTAL");

@@ -28,6 +28,7 @@ void videothread::videoInit(QString fName)
 //Star naszego watku
 void videothread::run()
 {
+    int multiGestureWaiter = 0;
     while(1)
     {
         //QMutex mutex;
@@ -105,7 +106,16 @@ void videothread::run()
                 //Obliczenia dla wielu boxów - wielu potencjalnych gestów
                 qDebug() << "Obliczenia dla wielu boxów - wielu potencjalnych gestów";
                 //wykrycie ruchu i-tego boxa
-                if(prev_x.at(i).size()<10) //TUUUUU
+                qDebug() << "i " << i;
+                qDebug() << "prev size: " << prev_x.size();
+                //qDebug() << "prev [i] size: " << prev_x.at(i).size();
+                if(prev_x.at(i).empty()) //TUUUUU
+                {
+                    //nie zebrano jeszcze odpowiedniej liczby klatek
+                    qDebug() << "nie zebrano jeszcze odpowiedniej liczby klatek PUSTE";
+                    prev_x.at(i).push_back(boxy[i].tl());
+                }
+                else if(prev_x.at(i).size()<10)
                 {
                     //nie zebrano jeszcze odpowiedniej liczby klatek
                     qDebug() << "nie zebrano jeszcze odpowiedniej liczby klatek";
@@ -160,30 +170,39 @@ void videothread::run()
                     //zakończono śledzenie gestu, więc wywalamy go
                     qDebug() << "zakończono śledzenie gestu, więc wywalamy go";
                     gesture.at(i).clear();
-                    gesture.erase(gesture.begin() + i);
 
                     prev_x.at(i).clear();
-                    prev_x.erase(prev_x.begin() + i);
 
-                    ismoving.erase(ismoving.begin() + i);
+                    ismoving.at(i) = false;
                     }
                 }
 
             }//zakończenie analizy wszystkich boxów
             qDebug() << "zakończenie analizy wszystkich boxów";
 
+
+            if(!ended_gesture.empty())
+            {
             if(ended_gesture.size()>1){
                 //Wykryto multitouch
-                qDebug() << "Wykryto multitouch";
+                qDebug() << "Wykryto multitouch BOX";
                 emit emitMultiGesture(ended_gesture);
             }
 
+            multiGestureWaiter++;
+            multiGestureWaiter = multiGestureWaiter % 100;
 
-            for(int i=0; i<(int)ended_gesture.size(); i++)
+            if(multiGestureWaiter >99)
             {
-                ended_gesture.at(i).clear();
+
+                for(int i=0; i<(int)ended_gesture.size(); i++)
+                {
+                    ended_gesture.at(i).clear();
+                }
+
+                ended_gesture.clear();
             }
-            ended_gesture.clear();
+            }
 
 
 
@@ -191,6 +210,7 @@ void videothread::run()
         else
         {
             //Nie ma już boxów na ekranie, ale trzeba przeanalizować bufor do końca
+
             qDebug() << "Nie ma już boxów na ekranie, ale trzeba przeanalizować bufor do końca";
             for(int i=0; i<(int)gesture.size(); i++)
             {
@@ -205,27 +225,37 @@ void videothread::run()
                 ended_gesture.push_back(std::vector<cv::Point2f>(gesture.at(i)));
                 //zakończono śledzenie gestu, więc wywalamy go
                 gesture.at(i).clear();
-                gesture.erase(gesture.begin() + i);
 
                 prev_x.at(i).clear();
-                prev_x.erase(prev_x.begin() + i);
 
-                ismoving.erase(ismoving.begin() + i);
+                ismoving.at(i) = false;
                 }
             }
 
+
+
+            if(!ended_gesture.empty())
+            {
+
             if(ended_gesture.size()>1){
                 //Wykryto multitouch
-                qDebug() << "Wykryto multitouch";
+                qDebug() << "Wykryto multitouch ELSE";
                 emit emitMultiGesture(ended_gesture);
             }
+multiGestureWaiter++;
+multiGestureWaiter = multiGestureWaiter % 100;
+
+if(multiGestureWaiter >99)
+{
+                for(int i=0; i<(int)ended_gesture.size(); i++)
+                {
+                    ended_gesture.at(i).clear();
+                }
 
 
-            for(int i=0; i<(int)ended_gesture.size(); i++)
-            {
-                ended_gesture.at(i).clear();
-            }
             ended_gesture.clear();
+}
+            }
 
             //Nie ma już boxów, więc czyścimy rozpoczęte śledzenia
             qDebug() << "Nie ma już boxów, więc czyścimy rozpoczęte śledzenia";
